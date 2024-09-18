@@ -1,0 +1,5 @@
+config SHIELD_DILLY_LEFT
+	def_bool $(shields_list_contains,dilly_left)
+
+config SHIELD_DILLY_RIGHT
+	def_bool $(shields_list_contains,dilly_right)

@@ -1,0 +1,6 @@
+if SHIELD_BIG_GR8_LEFT || SHIELD_BIG_GR8_RIGHT
+
+config ZMK_KEYBOARD_NAME
+	default "GR8"
+
+endif

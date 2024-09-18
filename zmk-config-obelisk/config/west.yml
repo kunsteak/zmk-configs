@@ -1,0 +1,11 @@
+manifest:
+  remotes:
+    - name: kunsteak
+      url-base: https://github.com/kunsteak 
+  projects:
+    - name: zmk
+      remote: kunsteak
+      revision: repeatrollfix-tapdance-macro-mouse-dongle
+      import: app/west.yml
+  self:
+    path: config

@@ -1,0 +1,22 @@
+config ZMK_BLE
+    default y
+
+config ZMK_USB
+    default y
+
+if SHIELD_BLOQ_LEFT
+
+config ZMK_KEYBOARD_NAME
+	default "Bloq"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_BLOQ_LEFT || SHIELD_BLOQ_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

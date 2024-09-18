@@ -1,0 +1,160 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+&mt {
+    tapping-term-ms = <250>;
+    flavor = "tap-preferred";
+};
+&sk {
+    release-after-ms = <2000>;
+    quick-release;
+};
+&caps_word {
+    continue-list = <UNDERSCORE BACKSPACE DELETE MINUS>;
+};
+
+/* Layers */
+#define DEF 0
+#define SYM 1
+#define NAV 2	
+#define BLT 3
+/ { 
+    combos {
+        compatible = "zmk,combos";
+        combo_caps {
+            timeout-ms = <100>;
+            key-positions = <4 5>;
+            bindings = <&caps_word>;
+        };
+        combo_repeat  {
+            timeout-ms = <100>;
+            key-positions = <14 15>;
+            bindings = <&key_repeat>;
+            layers = <DEF>;
+        };
+        combo_colon  {
+            timeout-ms = <100>;
+            key-positions = <28 29>;
+            bindings = <&kp COLON>;
+            layers = <DEF>;
+        };
+        combo_NAV  {
+            timeout-ms = <100>;
+            key-positions = <10 11 12 13>;
+            bindings = <&kp SEMI>;
+            layers = <DEF>;
+        };
+    };
+
+    // The hold-trigger-key-positions are mirrored so that the hand that is not
+    // responsible for a layer can be used (w/o delay) in said layer.
+
+    behaviors {
+        m_l: mods_left {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MODS_L";
+            #binding-cells = <2>;
+            tapping-term-ms = <300>;
+            quick-tap-ms = <250>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29 30 31 32 33 34 35>; // right hand and both thumb clusters
+        };
+        m_r: mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MODS_R";
+            #binding-cells = <2>;
+            tapping-term-ms = <300>;
+            quick-tap-ms = <250>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 30 31 32 33 34 35>; // left hand and both thumb clusters
+        };
+        l_l: layers_left {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYERS_L";
+            #binding-cells = <2>;
+            tapping-term-ms = <220>;
+            quick-tap-ms = <250>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29 30 31 32 33 34 35>; // right hand and both thumb clusters
+        };
+        l_r: layers_right {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYERS_R";
+            #binding-cells = <2>;
+            tapping-term-ms = <220>;
+            quick-tap-ms = <250>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 30 31 32 33 34 35>; // left hand and both thumb clusters
+        };
+        shftrep: shft_rep {
+             compatible = "zmk,behavior-hold-tap";
+             label = "SHFT_REP";
+             #binding-cells = <2>;
+             flavor = "hold-preferred";
+             tapping-term-ms = <300>;
+             quick-tap-ms = <250>;
+             bindings = <&kp>, <&key_repeat>;
+        };
+        td: tapdance {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TAPDANCE";
+            #binding-cells = <2>;
+            tapping-term-ms = <190>;
+            quick-tap-ms = <250>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    //      00  01  02  03  04      05  06  07  08  09
+    //      10  11  12  13  14      15  16  17  18  19
+    //      20  21  22  23  24      25  26  27  28  29
+    //              30  31  32      33  34  35
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default {
+            bindings = <
+            &kp Y     &m_l LCTL C   &m_l LALT L   &m_l LGUI M   &l_l BLT K              &l_r BLT Z           &m_r RGUI F      &m_r RALT U     &m_r RCTL COMMA   &td DQT SQT
+            &kp I     &kp S         &kp R         &kp T         &mt LC(LS(LALT)) G      &mt LC(LS(LALT)) P   &kp N            &kp E           &kp A        &kp O
+            &kp Q     &kp V         &kp W         &kp D         &kp J                   &kp B   &kp H        &td QMARK FSLH   &td COLON DOT   &td SEMI X
+            &kp TAB   &l_l NAV SPC   &l_l SYM ESC                                       &l_r SYM RET   &l_r NAV BSPC   &sk RSHFT
+            >;
+        };
+
+        sym {
+            bindings = <
+            &kp ESC     &m_l LCTL LT   &m_l LALT GT   &m_l LGUI LPAR   &kp RPAR      &kp FSLH    &td RS(N7) N7   &td RS(N8) N8   &kp N9          &td COMMA DOT
+            &kp TILDE   &kp UNDER      &kp MINUS      &kp LBKT         &kp RBKT      &kp PLUS    &td RS(N4) N4   &td RS(N5) N5   &td RS(N6) N6   &kp N0
+            &kp GRAVE   &kp PIPE       &kp BSLH       &kp LBRC         &kp RBRC      &kp MINUS   &td RS(N1) N1   &td RS(N2) N2   &td RS(N3) N3   &kp EQUAL
+            &trans   &kp SPC   &kp ESC                                               &kp RET   &kp BSPC   &trans
+            >;
+        };
+
+        nav {
+            bindings = <
+            &kp LSHFT          &kp LCTL       &kp LALT       &kp LGUI   &kp LNLCK      &kp DEL               &kp HOME   &kp UP     &kp END     &kp PG_UP
+            &kp RC(RA(UP))     &kp LG(LBRC)   &kp RG(RBRC)   &none      &none          &td LG(X) LG(C)       &kp LEFT   &kp DOWN   &kp RIGHT   &kp PG_DN
+            &kp RC(RA(DOWN))   &kp LG(LBKT)   &kp LG(RBKT)   &none      &none          &td LG(LA(V)) LG(V)   &none      &none      &kp COMMA   &kp SEMI
+            &trans   &kp SPC   &kp ESC                                                 &kp RET   &kp BSPC   &trans
+            >;
+        };
+
+        blt {
+            bindings = <
+            &out OUT_BLE   &none   &none   &none         &none      &none   &none         &none   &none   &out OUT_BLE
+            &none          &none   &none   &bootloader   &none      &none   &bootloader   &none   &none   &none
+            &reset         &none   &none   &none         &none      &none   &none         &none   &none   &reset
+            &none   &none   &none                                   &none   &none   &none
+            >;
+        };
+
+    };
+};
